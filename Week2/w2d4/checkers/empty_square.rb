@@ -27,4 +27,8 @@ class EmptySquare
     []
   end
 
+  def color
+    :none
+  end
+
 end

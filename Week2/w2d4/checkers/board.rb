@@ -41,8 +41,10 @@ class Board
     end
 
     #for testing!! TODO remove these pieces!
-    red_piece = Piece.new(checkers_board, [3,2], COLOR2, false)
-    checkers_board[[3,2]] = red_piece
+    # red_piece = Piece.new(checkers_board, [3,2], COLOR2, false)
+    # black_piece = Piece.new(checkers_board, [2,1], COLOR1, false)
+    # checkers_board[[3,2]] = red_piece
+    # checkers_board[[2,1]] = black_piece
 
     checkers_board
   end
@@ -93,29 +95,31 @@ class Board
     end
   end
 
-  def jump(start_pos, *other_positions)
-    piece = self[start_pos]
-    # TODO change to non bang version
-    piece.jump_move!(other_positions.first)
-  end
-
-  def slide(start_pos, end_pos)
-    #TODO: change to call slide_move (non bang)
-    piece = self[start_pos]
-    piece.slide_move!(end_pos)
-
-  end
-
-  # def valid_slide?(start_pos, end_pos)
-  #   unless on_board?(start_pos) &&
-  #          on_board?(end_pos)   &&
-  #          occupied?(start_pos) &&
-  #          !occupied?(end_pos)  &&
-  #          self[start_pos].valid_slide_moves.include?(end_pos)
-  #     false
-  #   end
-  #   true
+  # def jump(start_pos, *other_positions)
+  #   piece = self[start_pos]
+  #   # TODO change to non bang version
+  #   piece.jump_move!(other_positions.first)
   # end
+  #
+  # def slide(start_pos, end_pos)
+  #   #TODO: change to call slide_move (non bang)
+  #   piece = self[start_pos]
+  #   piece.slide_move!(end_pos)
+  #
+  # end
+
+  def wins?(color)
+    other_pieces = all_pieces_of(other_color(color))
+    other_pieces.count == 0 || other_pieces.none? {|pc| pc.valid_moves.size > 0}
+  end
+
+  def other_color(color)
+    color == COLOR1 ? COLOR2 : COLOR1
+  end
+
+  def all_pieces_of(color)
+    grid.flatten.select { |piece| piece.color == color }
+  end
 
   def dup
     new_board = self.class.new
@@ -134,6 +138,8 @@ class Board
 
       end
     end
+
+    new_board
   end
 
   private

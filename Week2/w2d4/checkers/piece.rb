@@ -5,7 +5,7 @@ require_relative 'invalid_move_error'
 
 class Piece
   attr_accessor :pos
-  attr_reader :color#, :board
+  attr_reader :color, :board
 
 
   def initialize(board, pos, color, is_king = false)
@@ -37,6 +37,7 @@ class Piece
   end
 
   def perform_moves(*end_positions)
+    #debugger
     if valid_move_seq?(*end_positions)
       perform_moves!(*end_positions)
     else
@@ -45,9 +46,10 @@ class Piece
   end
 
   def valid_move_seq?(*end_positions)
+    #debugger
     new_board = self.board.dup
     begin
-      self.perform_moves!(*end_positions)
+      new_board[self.pos].perform_moves!(*end_positions)
       true
     rescue InvalidMoveError => error
       puts error.message
@@ -113,16 +115,18 @@ class Piece
     self.class.new(new_board, pos, color, king?)
   end
 
-  # def valid_moves
-  #   valid_moves = valid_jump_moves
-  #   if valid_moves.count < 1
-  #     valid_moves.concat(valid_slide_moves)
-  #   end
-  #   valid_moves
-  # end
+  def valid_moves
+    valid_moves = valid_jump_moves
+    if valid_moves.count < 1
+      valid_moves.concat(valid_slide_moves)
+    end
+    valid_moves
+  end
 
   def valid_jump_moves
     valid_moves = []
+
+    #debugger
 
     move_diffs.each do |diff|
 
@@ -187,6 +191,4 @@ class Piece
     return_diffs
   end
 
-  private
-  attr_accessor :board
 end
