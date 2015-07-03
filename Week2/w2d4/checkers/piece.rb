@@ -68,8 +68,8 @@ class Piece
         raise InvalidMoveError.new("Invalid move")
       end
     else
-      #assumes true if no moves provided
-      true
+      #no moves provided
+      false
     end
   end
 

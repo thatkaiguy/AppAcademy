@@ -1,6 +1,7 @@
 require_relative 'piece'
 require_relative 'empty_square'
 require 'colorize'
+require 'io/console'
 
 class Board
 
@@ -8,6 +9,7 @@ class Board
   COLOR2 = :red
   EMPTYSQUARE = EmptySquare.new
 
+  attr_accessor :cursor_pos
 
   def self.get_checkers_board
     checkers_board = Board.new
@@ -51,6 +53,7 @@ class Board
 
   def initialize
     @grid = Array.new(8) { Array.new(8) { EMPTYSQUARE } }
+    @cursor_pos = nil
   end
 
   def on_board?(pos)
@@ -82,11 +85,13 @@ class Board
   end
 
   def render
+    system("clear")
     background_colors = [:light_white, :light_black]
 
-    grid.each do |row|
-      row.each do |square|
+    grid.each_with_index do |row, row_idx|
+      row.each_with_index do |square, col_idx|
         curr_color = background_colors.first
+        curr_color = :yellow if [row_idx, col_idx] == cursor_pos
         print square.render.colorize(:background => curr_color)
         background_colors.rotate!
       end
@@ -95,18 +100,6 @@ class Board
     end
   end
 
-  # def jump(start_pos, *other_positions)
-  #   piece = self[start_pos]
-  #   # TODO change to non bang version
-  #   piece.jump_move!(other_positions.first)
-  # end
-  #
-  # def slide(start_pos, end_pos)
-  #   #TODO: change to call slide_move (non bang)
-  #   piece = self[start_pos]
-  #   piece.slide_move!(end_pos)
-  #
-  # end
 
   def wins?(color)
     other_pieces = all_pieces_of(other_color(color))

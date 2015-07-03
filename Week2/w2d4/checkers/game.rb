@@ -5,8 +5,9 @@ class Game
 
   def initialize
     @players = [HumanPlayer.new(Board::COLOR2), HumanPlayer.new(Board::COLOR1)]
-    @board = nil
+    @board = Board.get_checkers_board
     @cursor = [2,1]
+    @board.cursor_pos = cursor_pos
   end
 
   def cursor_pos
@@ -14,7 +15,6 @@ class Game
   end
 
   def play
-    @board = Board.get_checkers_board
     #debugger
     until board.wins?(current_player.color)
       next_player!
@@ -26,28 +26,75 @@ class Game
   end
 
   def play_turn
-    start_pos = get_starting_position
-    end_positions = get_end_positions
     begin
+      start_pos = get_cursor_start
+      end_positions = get_cursor_end
       piece = board[start_pos]
-      if piece.valid_jump_moves < 1 &&
-         all_pieces_of(current_player.color).any? {|pc| pc.valid_jump_moves > 0}
+      if piece.valid_jump_moves.size < 1 &&
+         board.all_pieces_of(current_player.color).any? {|pc| pc.valid_jump_moves.size > 0}
          raise InvalidMoveError.new("Another piece has a jump move.")
        end
       piece.perform_moves(*end_positions)
     rescue InvalidMoveError => error
       puts error.message
+      retry
     end
   end
 
-  def get_starting_position
-    pos = nil
-    until pos && valid_starting_position?(pos)
-      puts "#{current_player}"
-      puts "Please enter a starting position."
-      pos = current_player.get_position
+  def get_cursor_start
+    parsed_input = nil
+
+    until parsed_input                          &&
+          parsed_input == "\r"                  &&
+          valid_starting_position?(cursor_pos)
+
+      board.cursor_pos = cursor_pos
+      display_board
+      puts "#{current_player}'s turn!'"
+
+      parsed_input = parse_cursor(current_player.cursor)
+
     end
-    pos
+    cursor_pos
+  end
+
+  def get_cursor_end
+    selected_positions = []
+    parsed_input = nil
+
+    until parsed_input && parsed_input == "\r"
+
+      board.cursor_pos = cursor_pos
+      display_board
+      puts "#{current_player} choose an ending position."
+      puts "Press Space on a highlighed position to add it the list of selected"
+      puts "end positions. "
+      puts "Press Enter to end selection."
+
+      parsed_input = parse_cursor(current_player.cursor)
+      if parsed_input == " "
+        selected_positions << cursor_pos
+      end
+
+    end
+    selected_positions.uniq
+  end
+
+  def parse_cursor(input)
+    case input.downcase
+    when "w"
+      @cursor[0] -= 1 if board.on_board?([@cursor[0] - 1, @cursor[1]])
+    when "s"
+      @cursor[0] += 1 if board.on_board?([@cursor[0] + 1, @cursor[0]])
+    when "d"
+      @cursor[1] += 1 if board.on_board?([@cursor[0], @cursor[1] + 1])
+    when "a"
+      @cursor[1] -= 1 if board.on_board?([@cursor[0], @cursor[1] - 1])
+    when "\e"
+      raise "You quit!"
+      exit
+    end
+    input
   end
 
   def valid_starting_position?(pos)
@@ -57,21 +104,6 @@ class Game
     board[pos].valid_moves.count > 0
   end
 
-  def get_end_positions
-    input = nil
-    end_positions = []
-    until !input.nil? && input == "s"
-      puts "Please enter in ending positions (eg. 1,2)."
-      puts "Enter 's' to stop at any time."
-
-      input = gets.chomp
-      end_positions << input.split(",").map(&:to_i)
-    end
-
-    ret_val = end_positions[0..-2]
-    p ret_val
-    ret_val
-  end
 
   def next_player!
     players.rotate!

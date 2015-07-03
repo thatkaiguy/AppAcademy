@@ -14,4 +14,8 @@ class HumanPlayer
     pos = gets.chomp.split(",").map(&:to_i)
   end
 
+  def cursor
+    $stdin.getch
+  end
+
 end
