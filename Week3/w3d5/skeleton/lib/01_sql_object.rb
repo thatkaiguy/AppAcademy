@@ -95,22 +95,38 @@ class SQLObject
   end
 
   def insert
-    col_names = columns.map(&:to_s).join(", ")
-    question_marks = (["?"] * columns.count).join(", ")
+    col_names = self.class.columns.drop(1).map(&:to_s).join(", ")
+
+    question_marks = (["?"] * (self.class.columns.count - 1)).join(", ")
+
     insert_query = <<-SQL
       INSERT INTO
-        #{table_name} (#{col_names})
+        #{self.class.table_name} (#{col_names})
       VALUES
         (#{question_marks})
     SQL
-    
+
+    DBConnection.execute(insert_query, *attribute_values)
+    self.id = DBConnection.last_insert_row_id
   end
 
   def update
-    # ...
+    col_names = self.class.columns.drop(1)
+    set_string = col_names.map { |col_name| "#{col_name} = ?"}.join(", ")
+
+    update_query = <<-SQL
+      UPDATE
+        #{self.class.table_name}
+      SET
+        #{set_string}
+      WHERE
+        id = ?
+    SQL
+
+    DBConnection.execute(update_query, *attribute_values.drop(1), self.id)
   end
 
   def save
-    # ...
+    id.nil? ? insert : update
   end
 end
