@@ -1,0 +1,35 @@
+<h1><%= @cat.name %></h1>
+<table>
+  <tr>
+    <% @cat.class.show_columns.each do |column| %>
+      <th><%= column.to_s %></th>
+    <% end %>
+  </tr>
+  <tr>
+    <% @cat.class.show_columns.each do |column| %>
+      <td><%= @cat.send(column) %></td>
+    <% end %>
+  </tr>
+</table>
+
+<% unless @rental_requests.empty? %>
+  <h2> <%= @cat.name %>'s Rental Requests </h2>
+  <table>
+    <tr>
+      <% @rental_requests.first.class.show_columns.each do |column| %>
+        <th><%= column.to_s %></th>
+      <% end %>
+    </tr>
+    <% @rental_requests.each do |rental_request| %>
+      <tr>
+        <% rental_request.class.show_columns.each do |column| %>
+          <td><%= rental_request.send(column) %></td>
+        <% end %>
+        <% if rental_request.pending?  %>
+          <td><a href="<%= approve_request_url(rental_request) %>">Approve request</a></td>
+          <td><a href="<%= deny_request_url(rental_request) %>">Deny request</a></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
