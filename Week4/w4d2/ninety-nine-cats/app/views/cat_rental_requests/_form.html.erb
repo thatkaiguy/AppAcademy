@@ -1,0 +1,43 @@
+<% method = rental_request.persisted? ? "PATCH" : "POST" %>
+<% header_action = rental_request.persisted? ?
+   "Edit #{rental_request.cat.name}'s" : "Create a" %>
+<% form_action = rental_request.persisted? ? "/#{rental_request.id}" : "" %>
+<% button_action = rental_request.persisted? ? "Submit Data" : "Create Request" %>
+
+<h1><%= header_action %> rental request!</h1>
+
+<form action="/cat_rental_requests<%=form_action%>" method="post">
+  <input type="hidden" name="_method" value="<%= method %>"
+  <label for="rental_request_cat">Cats For Rent</label>
+  <select name="cat_rental_request[cat_id]" id="rental_request_cat">
+    <% if rental_request.cat_id.nil? %>
+      <option value="default_cat" selected>Please choose a cat to rent</option>
+    <% end %>
+
+    <% cats.each do |cat| %>
+      <option value="<%= cat.id %>"
+        <% if cat.id == rental_request.cat_id %>
+          selected
+        <% end %>>
+        <%= cat.name %>
+      </option>
+    <% end %>
+
+  </select>
+  <br>
+
+  <label for="cat_start_date">Choose a Start date</label>
+  <input id="cat_start_date"
+        type="date"
+        name="cat_rental_request[start_date]"
+        value="<%= rental_request.start_date %>">
+  <br>
+
+  <label for="cat_end_date">Choose a End date</label>
+  <input id="cat_end_date"
+        type="date"
+        name="cat_rental_request[end_date]"
+        value="<%= rental_request.end_date %>">
+  <br>
+  <input type="submit" value="<%= button_action %>">
+</form>
