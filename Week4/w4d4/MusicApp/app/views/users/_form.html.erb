@@ -1,0 +1,22 @@
+<% html_verb = user.persisted? ? "PATCH" : "POST" %>
+<% form_action = user.persisted? ? "/user/#{user.id}" : "/user"%>
+<% button_text = user.persisted? ? "Submit Changes" : "Create User" %>
+
+<% if is_login %>
+  <% form_action = "/session" %>
+  <% button_text = "Login" %>
+<% end %>
+
+<form action="<%=  form_action %>" method="post">
+  <input type="hidden" name="_method" action="<%= html_verb %>">
+
+  <label for="user_email">Email</label>
+  <input type="text" name="user[email]" id="user_email" value="<%= user.email %>">
+  <br>
+
+  <label for="user_password">Password</label>
+  <input type="password" name="user[password]" id="user_password">
+  <br>
+
+  <input type="submit" value="<%= button_text %>">
+</form>
