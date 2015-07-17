@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_credentials(*user_params.values)
     if @user
       log_in_user!(@user)
-      redirect_to user_url(@user)
+      redirect_to bands_url
     else
       @user = User.new(user_params.except(:password))
       render :new

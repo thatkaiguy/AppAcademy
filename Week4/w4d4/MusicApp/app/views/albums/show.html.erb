@@ -1,0 +1,18 @@
+<h1><%= @album.title %></h1>
+
+<ul>
+  <li>Band: <a href="<%= band_url(@album.band.id) %>">
+              <%= @album.band.name %>
+            </a>
+  </li>
+  <li>Title: <%= @album.title %></li>
+  <li>Recorded: <%= @album.recording_location %></li>
+</ul>
+
+<h3>Tracks</h3>
+<%= links_to_tracks(@album) %>
+<%= link_to "Add track to album", new_album_track_url(@album.id), method: :get%>
+<br>
+
+<%= button_to "Edit album", edit_album_url, method: :get %>
+<%= button_to "Delete album", albums_url(@album), method: :delete %>

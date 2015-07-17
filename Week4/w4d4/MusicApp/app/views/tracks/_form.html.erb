@@ -1,0 +1,48 @@
+<% header_text = track.persisted? ? "Edit #{track.name}" : "Create track" %>
+<% form_action = track.persisted? ? "/tracks/#{track.id}" : "/tracks" %>
+<% hidden_value = track.persisted? ? "PATCH" : "POST" %>
+<% button_text = track.persisted? ? "Submit Changes" : "Create track" %>
+
+<h1><%= header_text %></h1>
+
+<form action="<%= form_action %>" method="post">
+
+  <label for="track_name">Track name</label>
+  <input type="text"
+         name="track[name]"
+         id="track_name"
+         value="<%= track.name %>">
+  <br>
+
+  <label for="track_album_id">Album</label>
+  <select name="track[album_id]" id="track_album_id">
+    <option value="" selected="selected">Please select an album</option>
+    <% albums.each do |album| %>
+      <% select_str = "" %>
+      <% select_str = "selected=\"selected\"" if track.album_id == album.id %>
+      <option value="<%= album.id %>"<%= select_str %>><%= album.title %></option>
+    <% end %>
+  </select>
+  <br>
+
+  <label for="track_bonus">Bonus</label>
+  <input type="radio"
+         name="track[is_bonus]"
+         id="track_bonus"
+         value="1"
+         <%= "checked" if track.is_bonus == 1%>>
+  <label for="track_not_bonus">Not Bonus</label>
+  <input type="radio"
+         name="track[is_bonus]"
+         id="track_not_bonus"
+         value="1"
+         <%= "checked" if track.is_bonus == 1%>>
+  <br>
+
+  <label for="track_lyrics">Lyrics</label>
+  <textarea name="track[lyrics]" id="track_lyrics"></textarea>
+  <br>
+
+
+  <input type="submit" value="<%= button_text %>">
+</form>

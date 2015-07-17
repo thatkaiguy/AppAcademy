@@ -1,0 +1,46 @@
+<% header_text = album.persisted? ? "Edit #{album.title}" : "Create album" %>
+<% form_action = album.persisted? ? "/albums/#{album.id}" : "/albums" %>
+<% hidden_value = album.persisted? ? "PATCH" : "POST" %>
+<% button_text = album.persisted? ? "Submit Changes" : "Create Album" %>
+
+<h1><%= header_text %></h1>
+
+<form action="<%= form_action %>" method="post">
+  <input type="hidden" name="_method" value="<%= hidden_value %>">
+
+  <label for="album_title">Album title</label>
+  <input type="text"
+         name="album[title]"
+         id="album_title"
+         value="<%= album.title %>">
+  <br>
+
+  <label for="album_band_id">Band</label>
+  <select name="album[band_id]" id="album_band_id">
+    <option value="" selected="selected">Please select a band</option>
+    <% bands.each do |band| %>
+      <% select_str = "" %>
+      <% select_str = "selected=\"selected\"" if album.band_id == band.id %>
+      <option value="<%= band.id %>"<%= select_str %>><%= band.name %></option>
+    <% end %>
+  </select>
+  <br>
+
+  <label for="album_live">Live</label>
+  <input type="radio"
+         name="album[recording_location]"
+         id="album_live"
+         value="live"
+         <%= "checked" if album.recording_location == "live"%>>
+  <label for="album_studio">Studio</label>
+  <input type="radio"
+         name="album[recording_location]"
+         id="album_studio"
+         value="studio"
+         <%= "checked" if album.recording_location == "studio"%>>
+
+  <br>
+
+
+  <input type="submit" value="<%= button_text %>">
+</form>

@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
 
   after_initialize :ensure_session_token
 
+  has_many :notes,
+    foreign_key: :user_id,
+    class_name: :Note
+
   attr_accessor :password
 
   def self.generate_session_token

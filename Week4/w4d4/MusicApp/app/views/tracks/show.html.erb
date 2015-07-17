@@ -1,0 +1,18 @@
+<h1><%= @track.name %></h1>
+
+<ul>
+  <li>Album: <a href="<%= album_url(@track.album.id) %>">
+              <%= @track.album.title %>
+            </a>
+  </li>
+  <li>Name: <%= @track.name %></li>
+  <li>Bonus?: <%= @track.is_bonus == 1 ? "Yes" : "No" %></li>
+</ul>
+
+<%= render partial: 'notes/note', locals: { notes: @track.notes, track: @track} %>
+
+<%= render partial: '/notes/form', locals: { track: @track } %>
+<br>
+
+<%= button_to "Edit track", edit_track_url, method: :get %>
+<%= button_to "Delete track", tracks_url(@track), method: :delete %>

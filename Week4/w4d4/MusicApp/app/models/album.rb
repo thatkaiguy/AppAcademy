@@ -20,6 +20,6 @@ class Album < ActiveRecord::Base
   has_many :tracks,
     foreign_key: :album_id,
     class_name: :Track,
-    destroy: :dependent
-    
+    dependent: :destroy
+
 end

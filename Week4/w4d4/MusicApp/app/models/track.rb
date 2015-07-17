@@ -17,4 +17,8 @@ class Track < ActiveRecord::Base
   belongs_to :album,
     foreign_key: :album_id,
     class_name: :Album
+
+  has_many :notes,
+    foreign_key: :track_id,
+    class_name: :Note
 end
