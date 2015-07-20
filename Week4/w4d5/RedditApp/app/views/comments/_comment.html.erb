@@ -1,0 +1,11 @@
+<ul>
+  <%= comment.content %>
+  <br>
+  <%= link_to "Link", comment_url(comment) %>
+  <br>
+  -<%= comment.author.username %> | <%= comment.created_at %><br>
+  <br>
+  <% child_comments[comment.id].each do |comment| %>
+    <%= render '/comments/comment', comment: comment, child_comments: child_comments %>
+  <% end %>
+</ul>

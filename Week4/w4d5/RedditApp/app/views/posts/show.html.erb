@@ -1,0 +1,9 @@
+<p>Title:</p>
+<p><%= @post.title %></p>
+<p>Content:</p>
+<p><%= @post.content %></p>
+<p><%= link_to "Create a comment", new_post_comment_url(@post), target: "_blank" %></p>
+<p>Comments</p>
+<% @parent_comments.each do |comment| %>
+  <%= render '/comments/comment', comment: comment, child_comments: @child_comments %>
+<% end %>

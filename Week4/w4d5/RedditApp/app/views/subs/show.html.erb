@@ -1,0 +1,6 @@
+<% @sub.posts.each do |post| %>
+  <%= button_to "Up Vote", post_upvote_url(post), params: { voteable_id: post.id, voteable_type: "Post", sub_id: @sub.id } %>
+  <%= button_to "Down Vote", post_downvote_url(post), params: { voteable_id: post.id, voteable_type: "Post", sub_id: @sub.id } %>
+  <%= link_to "#{post.title}", post_url(post) %>
+  <br>
+<% end %>

@@ -1,0 +1,4 @@
+<% @subs.each do |sub| %>
+  <%= link_to "#{sub.title}", sub_url(sub) %><br>
+  <%= sub.description %><br><br>
+<% end %>

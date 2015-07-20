@@ -1,0 +1,15 @@
+<% form_action = comment.persisted? ? comment_url(comment) : comments_url %>
+<% method_action = comment.persisted? ? :patch : :post %>
+<% submit_value = comment.persisted? ? "Submit changes" : "Create comment" %>
+
+<form action="<%= form_action %>" method="POST">
+  <input type="hidden" name="_method" value="<%= method_action %>">
+  <%= auth_token %>
+  <input type="hidden" name="comment[post_id]" value="<%= post.id %>">
+
+  <label for="comment_content">Content:</label><br>
+  <textarea name="comment[content]" id="comment_content"></textarea><br><br>
+
+  <input type="submit" value="<%= submit_value %>">
+
+</form>
