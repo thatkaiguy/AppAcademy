@@ -15,27 +15,22 @@ module Phase2
 
     # Set the response status code and header
     def redirect_to(url)
-      if !already_built_response?
-        @res.status = 302
-        @res.header["location"] = url
-        @already_built_response = true
-      else
-        raise "response already built"
-      end
+      raise "response already built" if already_built_response?
+
+      @res.status = 302
+      @res.header["location"] = url
+      @already_built_response = true
     end
 
     # Populate the response with content.
     # Set the response's content type to the given type.
     # Raise an error if the developer tries to double render.
     def render_content(content, content_type)
-      if !already_built_response?
-        #prepare a response
-        @res.content_type = content_type
-        @res.body = content
-        @already_built_response = true
-      else
-        raise "response already built"
-      end
+      raise "response already built" if already_built_response?
+      
+      @res.content_type = content_type
+      @res.body = content
+      @already_built_response = true
     end
   end
 end
