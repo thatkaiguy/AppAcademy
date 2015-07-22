@@ -14,11 +14,19 @@ module Phase6
       !!pattern.match(req.path) && http_method == req.request_method.downcase
     end
 
-    # use pattern to pull out route params (save for later?)
+    # use pattern (?) to pull out route params (save for later?)
     # instantiate controller and call controller action
     def run(req, res)
-      #TODO pull out route params
-      controller_class.new(req, res).invoke_action(action_name)
+      match_data = Regexp.new(pattern.nil? ? ".^" : pattern).match(req.path)
+
+      query_params = {}
+      if match_data && match_data.names.count > 0
+        route_params = match_data.names.each do |n|
+          query_params[n] = match_data[n]
+        end
+      end
+
+      controller_class.new(req, res, query_params).invoke_action(action_name)
     end
   end
 
@@ -37,6 +45,7 @@ module Phase6
     # evaluate the proc in the context of the instance
     # for syntactic sugar :)
     def draw(&proc)
+      instance_eval(&proc)
     end
 
     # make each of these methods that
@@ -58,7 +67,7 @@ module Phase6
       if route
         route.run(req, res)
       else
-        req.status = 404
+        res.status = 404
       end
     end
   end

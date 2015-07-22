@@ -57,9 +57,9 @@ module Phase5
     def parse_www_encoded_form(www_encoded_form)
       params = {}
       #['user', 'address', 'street']
-      #{user:{}}
-      #{user: { address:{} }}
-      #{user: { address: {street: 'blah st'}}
+      #{ user: {} }
+      #{ user: { address: {} } }
+      #{ user: { address: { street: 'blah st' } }
       URI::decode_www_form(www_encoded_form).each do |entry|
         keys = parse_key(entry.first)
         curr_hash = nil
