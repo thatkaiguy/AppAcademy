@@ -17,6 +17,8 @@ module Phase6
     # use pattern to pull out route params (save for later?)
     # instantiate controller and call controller action
     def run(req, res)
+      #TODO pull out route params
+      controller_class.new(req, res).invoke_action(action_name)
     end
   end
 
@@ -52,6 +54,12 @@ module Phase6
 
     # either throw 404 or call run on a matched route
     def run(req, res)
+      route = match(req)
+      if route
+        route.run(req, res)
+      else
+        req.status = 404
+      end
     end
   end
 end
