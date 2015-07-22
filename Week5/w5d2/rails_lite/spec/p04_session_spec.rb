@@ -1,7 +1,6 @@
 require 'webrick'
 require_relative '../lib/phase4/session'
 require_relative '../lib/phase4/controller_base'
-require 'byebug'
 
 describe Phase4::Session do
   let(:req) { WEBrick::HTTPRequest.new(Logger: nil) }

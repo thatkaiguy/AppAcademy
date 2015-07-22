@@ -1,3 +1,4 @@
+
 module Phase2
   class ControllerBase
     attr_reader :req, :res
@@ -17,9 +18,9 @@ module Phase2
     def redirect_to(url)
       raise "response already built" if already_built_response?
 
+      @already_built_response = true
       @res.status = 302
       @res.header["location"] = url
-      @already_built_response = true
     end
 
     # Populate the response with content.
@@ -28,9 +29,9 @@ module Phase2
     def render_content(content, content_type)
       raise "response already built" if already_built_response?
 
+      @already_built_response = true
       @res.content_type = content_type
       @res.body = content
-      @already_built_response = true
     end
   end
 end

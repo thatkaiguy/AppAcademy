@@ -2,6 +2,7 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'webrick'
 require_relative '../lib/phase5/controller_base'
+require 'byebug'
 
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick.html
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick/HTTPRequest.html
@@ -36,8 +37,10 @@ class CatsController < Phase5::ControllerBase
   def create
     @cat = Cat.new(params["cat"])
     if @cat.save
+      flash[:msg] = "i just saved a cat!"
       redirect_to("/cats")
     else
+      flash.now[:msg] = "could not save cat"
       render :new
     end
   end

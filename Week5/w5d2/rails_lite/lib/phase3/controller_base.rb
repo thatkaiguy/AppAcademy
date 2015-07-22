@@ -3,6 +3,7 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'erb'
 require 'active_support/inflector'
+require_relative '../phase9/flash'
 
 module Phase3
   class ControllerBase < Phase2::ControllerBase
@@ -12,6 +13,10 @@ module Phase3
       path = "views/#{self.class.to_s.underscore}/#{template_name}.html.erb"
       template_file = File.read(path)
       render_content(ERB.new(template_file).result(binding), "text/html")
+    end
+
+    def flash
+      @flash ||= Flash.new(@req)
     end
   end
 end
