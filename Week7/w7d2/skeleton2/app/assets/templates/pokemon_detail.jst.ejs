@@ -1,0 +1,12 @@
+<div class='detail'>
+  <ul>
+    <li><img src="<%= pokemon.attributes.image_url %>"></li>
+    <% Object.keys(pokemon.attributes).forEach(function(key) { %>
+      <% if(key !== "image_url") { %>
+        <li><%= key + ": " + pokemon.attributes[key] %></li>
+      <% } %>
+    <% }); %>
+  </ul>
+</div>
+<p>Toys: </p>
+<ul class="toys"></ul>
