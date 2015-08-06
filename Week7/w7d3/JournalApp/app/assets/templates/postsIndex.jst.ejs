@@ -1,0 +1,10 @@
+<% collection.forEach(function(item) { %>
+  <li>
+    <p>
+      Title: <%= item.escape("title") %>
+    </p>
+    <p>
+      Body: <%= item.escape("body") %>
+    </p>
+  </li>
+<% }); %>
