@@ -1,0 +1,53 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+.delete {
+  float: right;
+  display: block;
+}
+
+.feed-item {
+  float: left;
+  display: block;
+}
+
+.clearfix:after {
+   content: " "; /* Older browser do not support empty content */
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
+
+div.container-fluid {
+  width: 900px;
+  margin: auto;
+}
+
+div.cool-stuff {
+  width: 900px;
+  margin: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  padding: 5px;
+}
+
+button {
+  margin: 5px;
+}
