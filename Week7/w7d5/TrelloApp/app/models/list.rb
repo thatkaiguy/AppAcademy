@@ -11,4 +11,12 @@
 #
 
 class List < ActiveRecord::Base
+  belongs_to :board,
+  foreign_key: :board_id,
+  class_name: :Board
+  
+  validates :title, :ord, presence: true
+  validates :board, presence: true
+
+
 end

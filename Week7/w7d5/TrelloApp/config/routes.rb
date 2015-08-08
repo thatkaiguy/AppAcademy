@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     resources :boards, only: [:index, :create]
+    resources :lists, only: [:index]
   end
 end

@@ -20,10 +20,13 @@ TrelloApp.Routers.TrelloRouter = Backbone.Router.extend({
 
   boardShow: function(id) {
     var router = this;
+    var listItems = new TrelloApp.Collections.Lists();
     var showView = new TrelloApp.Views.BoardShow({
-      model: router._boards.getOrFetch(id)
-      // listCollection: new TrelloApp.Collections.list
+      model: router._boards.getOrFetch(id),
+      listCollection: listItems
     });
+
+    listItems.fetch();
 
     this._swap(showView);
   },

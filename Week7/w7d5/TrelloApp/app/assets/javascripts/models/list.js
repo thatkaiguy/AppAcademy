@@ -1,3 +1,3 @@
-TrelloApp.Models.Board = Backbone.Model.extend({
+TrelloApp.Models.List = Backbone.Model.extend({
   urlRoot: "api/lists"
 });

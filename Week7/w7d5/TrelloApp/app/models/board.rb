@@ -13,10 +13,14 @@ class Board < ActiveRecord::Base
   belongs_to :author,
   foreign_key: :user_id,
   class_name: :User
-  
+
+  has_many :lists,
+  foreign_key: :board_id,
+  class_name: :List,
+  dependent: :destroy
+
   validates :title, presence: true
   validates :author, presence: true
-
 
 
 end
