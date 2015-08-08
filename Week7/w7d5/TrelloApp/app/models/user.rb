@@ -17,6 +17,18 @@ class User < ActiveRecord::Base
   validates :email, :pw_digest, presence: true
   validates :password, length: { minimum: 6}, allow_nil: true
 
+  has_many :created_boards,
+  foreign_key: :user_id,
+  class_name: :Board
+
+  # has_many :board_memberships,
+  # foreign_key: :user_id,
+  # class_name: :BoardMember
+  #
+  # has_many :membership_boards,
+  # through: :board_memberships,
+  # source: :boards
+
   attr_reader :password
 
   def self.find_by_credentials(email, pw)

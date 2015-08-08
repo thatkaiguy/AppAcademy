@@ -4,7 +4,10 @@ window.TrelloApp = {
   Views: {},
   Routers: {},
   initialize: function() {
-    //alert('Hello from Backbone!');
+    //debugger
+    // alert('Hello from Backbone!');
+    new TrelloApp.Routers.TrelloRouter($('.trello-app'));
+    Backbone.history.start();
   }
 };
 
