@@ -1,7 +1,7 @@
 TrelloApp.Routers.TrelloRouter = Backbone.Router.extend({
   routes: {
     '' : "boardsIndex",
-    '/boards/:id' : "boardShow"
+    'boards/:id' : "boardShow"
   },
 
   initialize: function($el) {
@@ -19,15 +19,11 @@ TrelloApp.Routers.TrelloRouter = Backbone.Router.extend({
   },
 
   boardShow: function(id) {
-    var router = this;
-    var listItems = new TrelloApp.Collections.Lists();
+    var board = this._boards.getOrFetch(id);
     var showView = new TrelloApp.Views.BoardShow({
-      model: router._boards.getOrFetch(id),
-      listCollection: listItems
+      model: board
     });
-
-    listItems.fetch();
-
+    
     this._swap(showView);
   },
 

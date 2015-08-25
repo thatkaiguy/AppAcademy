@@ -12,6 +12,17 @@ class Api::BoardsController < ApplicationController
     end
   end
 
+  def show
+    @board = Board.includes(:cards).find(params[:id])
+    render :show
+  end
+
+  def destroy
+    @board = Board.find(params[:id])
+    @board.destroy
+    render json: @board
+  end
+
   private
 
   def board_params

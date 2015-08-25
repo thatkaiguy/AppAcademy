@@ -19,6 +19,10 @@ class Board < ActiveRecord::Base
   class_name: :List,
   dependent: :destroy
 
+  has_many :cards,
+  through: :lists,
+  source: :cards
+
   validates :title, presence: true
   validates :author, presence: true
 

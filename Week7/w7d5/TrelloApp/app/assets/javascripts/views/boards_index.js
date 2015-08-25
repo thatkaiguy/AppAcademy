@@ -22,7 +22,7 @@ TrelloApp.Views.BoardsIndex = Backbone.CompositeView.extend({
   },
 
   removeBoardView: function(board) {
-    this.removeModelSubview('.boards', board)
+    this.removeModelSubview('.boards', board);
   },
 
   addBoardNew: function() {

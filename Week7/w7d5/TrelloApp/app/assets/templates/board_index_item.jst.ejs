@@ -1,9 +1,14 @@
-<p>
-  Title:
-  <a href="<%= '#/boards/' + board.escape("id") %>">
+<!-- <button class="btn btn-primary btn-lg btn-block"> -->
+  <a href="<%= '#/boards/' + board.escape("id") %>"
+     class="btn btn-primary btn-lg btn-block">
     <%= board.escape('title') %>
+    
+    <button type="button"
+            name="button"
+            class="delete btn btn-warning">Delete</button>
   </a>
-</p>
+<!-- </button> -->
+
 
 <ul class="list-items">
 

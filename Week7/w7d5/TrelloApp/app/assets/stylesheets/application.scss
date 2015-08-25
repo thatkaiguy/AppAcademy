@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+ul.boards {
+  list-style-type: none;
+}
+
+ul.boards li{
+  width: 200px;
+  float: left;
+  margin: 5px;
+}
+
+ul.boards a{
+  color: white
+}

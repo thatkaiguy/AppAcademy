@@ -7,9 +7,16 @@ TrelloApp.Collections.Boards = Backbone.Collection.extend({
     if (!board) {
       board = new TrelloApp.Models.Board({id: id});
       this.add(board);
+      var collection = this;
+      board.fetch({
+        errors: function(model) {
+          collection.remove(model);
+        }
+      });
+    } else {
+      board.fetch();
     }
 
-    board.fetch();
     return board;
   }
 });

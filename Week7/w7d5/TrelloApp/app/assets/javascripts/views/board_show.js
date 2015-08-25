@@ -1,9 +1,10 @@
 TrelloApp.Views.BoardShow = Backbone.CompositeView.extend({
   initialize: function() {
-    this.listenTo(this.listCollection, 'sync', this.render);
-    this.listenTo(this.listCollection, 'add', this.addListView);
-    this.listenTo(this.listCollection, 'remove', this.removeListView);
-    this.listCollection.each(this.addListView.bind(this));
+    this.listenTo(this.model.lists(), 'sync', this.render);
+    this.listenTo(this.model.lists(), 'add', this.addListView);
+    this.listenTo(this.model.lists(), 'remove', this.removeListView);
+    this.model.lists().each(this.addListView.bind(this));
+    this.listenTo(this.model, 'sync', this.render);
   },
 
   template: JST['board_show'],
@@ -12,17 +13,24 @@ TrelloApp.Views.BoardShow = Backbone.CompositeView.extend({
 
   render: function() {
     this.$el.html(this.template({board: this.model}));
+    this.attachSubviews();
     return this;
   },
 
-  addListView: function(listItem) {
-    var listView = new TrelloApp.Views.ListIndex({
-      collection: this.listCollection
+  addListView: function(list) {
+    var listView = new TrelloApp.Views.ListIndexItem({
+      model: list
     });
-    this.addSubview('.list', listView);
+    this.addSubview('.lists', listView);
   },
 
   removeListView: function(list) {
-    this.removeModelSubview('.list', list)
+    this.removeModelSubview('.lists', list)
+  },
+
+  addListNew: function() {
+    this.addSubview('.new-list', new TrelloApp.Views.ListNew({
+      collection: this.model.lists()
+    }));
   }
 });

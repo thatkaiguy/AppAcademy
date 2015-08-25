@@ -11,7 +11,7 @@ class BoardsController < ApplicationController
 
   def create
     @board = current_user.created_boards.new(board_params)
-    fail
+
     if @board.save
       render json: @board
     else
@@ -21,7 +21,7 @@ class BoardsController < ApplicationController
 
   def show
     @board = Board.find(params[:id])
-    render json: @board
+    render :show
   end
 
   private
