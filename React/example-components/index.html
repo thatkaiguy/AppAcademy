@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://fb.me/react-0.13.3.js"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+  </head>
+  <body>
+    <div id="my-component"></div>
+    <div id="timer-component"></div>
+    <div id="nav-component"></div>
+
+    </div>
+
+    <script type="text/jsx">
+      var ClickCounter = React.createClass({
+        getInitialState: function (){
+          return {count: 0};
+        },
+        click: function (event) {
+          event.preventDefault();
+          this.setState({count: this.state.count + 1});
+        },
+        render: function (){
+          return (
+            <div>
+              <button onClick={this.click}>CLICK ME</button>
+              <span>{this.state.count}</span>
+            </div>
+          );
+        }
+      });
+
+      React.render(
+          <ClickCounter/>,
+          document.getElementById('my-component')
+      );
+
+      var TimerExample = React.createClass({
+        getInitialState: function () {
+          return { elapsed: 0 };
+        },
+
+        componentDidMount: function () {
+          this.timer = setInterval(this.tick, 50);
+        },
+
+        componentWillUnmount: function () {
+          clearInterval(this.timer);
+        },
+
+        tick: function () {
+          this.setState({ elapsed: new Date() - this.props.start });
+        },
+
+        render: function () {
+          var elapsed = Math.round(this.state.elapsed / 100);
+          var seconds = (elapsed / 10).toFixed(1);
+          return <p>This example was started <b>{ seconds } seconds</b> ago.</p>;
+        }
+      });
+
+      React.render(
+        <TimerExample start = { Date.now() } />,
+        document.getElementById('timer-component')
+      );
+
+      var MenuExample = React.createClass({
+        getInitialState: function () {
+          return { focused: 0 };
+        },
+        clicked: function (index) {
+          this.setState({ focused: index });
+        },
+        render: function () {
+          var self = this;
+          return (
+            <div>
+              <ul>
+                {
+                  this.props.items.map(function (m, index) {
+                    var style = '';
+                    if (self.state.focused == index) {
+                      style = 'focused';
+                    }
+                    return <li className={ style } onClick={ self.clicked.bind(self, index) }>{ m }</li>;
+                  })
+                }
+              </ul>
+              <p>Selected: { this.props.items[this.state.focused] } </p>
+            </div>
+          )
+        }
+      });
+
+      React.render(
+        <MenuExample items={ ['Home', 'Services', 'About', 'Contact Us'] }/>,
+        document.getElementById('nav-component')
+      )
+    </script>
+  </body>
+</html>
