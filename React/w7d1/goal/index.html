@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://fb.me/react-0.13.3.js"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+  </head>
+  <body>
+    <div id="goal-component"></div>
+
+    <script type="text/jsx">
+    var Tabs = React.createClass({
+      getInitialState: function () {
+        return { selected_idx: 0 }
+      },
+      clickHandler: function (index) {
+        this.setState({ selected_idx: index });
+      },
+      render: function () {
+        return (
+            <div>
+              <Headers tabs={ this.props.tabs } changeContent={ this.clickHandler }/>
+              <p>
+                { this.props.tabs[this.state.selected_idx].content }
+              </p>
+            </div>
+        )
+      }
+    });
+
+    var Headers = React.createClass({
+      getInitialState: function() {
+        return { selected_idx: 0};
+      },
+
+      switchTabs: function(i) {
+        this.setState( {selected_idx : i });
+        this.props.changeContent(i);
+      },
+
+      render: function () {
+        return (
+          <ul>
+            {
+              this.props.tabs.map(function(tab, index){
+                if (index == this.state.selected_idx) {
+                  return <b><li onClick={this.switchTabs.bind(this, index)}>{tab.title}</li></b>
+                } else {
+                  return <li onClick={this.switchTabs.bind(this, index)}>{ tab.title }</li>
+                }
+              }.bind(this))
+            }
+          </ul>
+        );
+      }
+    });
+
+    var new_tabs = [
+      { title: 1, content: "one" },
+      { title: 2, content: "two" },
+      { title: 3, content: "three" }
+    ]
+
+    React.render(
+      <Tabs tabs={ new_tabs } />,
+      document.getElementById('goal-component')
+    );
+    </script>
+  </body>
+</html>
